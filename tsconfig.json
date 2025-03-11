@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2016",
+    "module": "CommonJS",
+    "lib": ["DOM", "ESNext"],
+    "strict": true,
+    "removeComments": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "skipLibCheck": true,
+    "esModuleInterop": true
+    // "declaration": true
+  },
+  "include": ["src"]
+}
