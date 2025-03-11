@@ -1,5 +1,6 @@
 import { proto } from '@whiskeysockets/baileys';
 import { UpsertConfigs } from '../middlewares/onMessagesUpsert';
+import { baileysIs, extractDataFromMessage } from './helpers';
 
 type CommonFunctionsConfig = Omit<
   UpsertConfigs,
@@ -11,4 +12,11 @@ type CommonFunctionsConfig = Omit<
 export const loadCommonFunctions = ({
   socket,
   webMessage,
-}: CommonFunctionsConfig) => {};
+}: CommonFunctionsConfig) => {
+  const { args, commandName, isReply, prefix, remoteJid, replyJid, userJid } =
+    extractDataFromMessage(webMessage);
+
+    const isImage = baileysIs(webMessage, 'image')
+    const isVideo = baileysIs(webMessage, 'video')
+    const IsSticker = baileysIs(webMessage, 'sticker')
+};
