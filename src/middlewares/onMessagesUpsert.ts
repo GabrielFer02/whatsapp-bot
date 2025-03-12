@@ -1,5 +1,6 @@
 import { proto, WASocket } from '@whiskeysockets/baileys';
 import { loadCommonFunctions } from '../utils/loadCommonFunctions';
+import { dynamicCommand } from '../utils/dynamicCommand';
 
 export type UpsertConfigs = {
   socket: WASocket;

@@ -1,5 +1,13 @@
-import { proto } from '@whiskeysockets/baileys';
+import {
+  DownloadableMessage,
+  downloadContentFromMessage,
+  MediaType,
+  proto,
+} from '@whiskeysockets/baileys';
+import { writeFile } from 'node:fs/promises';
+import path from 'node:path';
 import readline from 'readline';
+import { TEMP_DIR } from '../configs';
 
 export const question = (message: string) => {
   const rl = readline.createInterface({
@@ -110,4 +118,32 @@ export const getContent = (
       messageKey
     ]
   );
+};
+
+export const download = async (
+  webMessage: proto.IWebMessageInfo,
+  fileName: string,
+  context: string,
+  extension: string,
+) => {
+  const content = getContent(webMessage, context);
+
+  if (!content) return null;
+
+  const stream = await downloadContentFromMessage(
+    content as DownloadableMessage,
+    context as MediaType,
+  );
+
+  let buffer = Buffer.from([]);
+
+  for await (const chunk of stream) {
+    buffer = Buffer.concat([buffer, chunk]);
+  }
+
+  const filePath = path.resolve(TEMP_DIR, `${fileName}.${extension}`);
+
+  await writeFile(filePath, buffer);
+
+  return filePath;
 };
